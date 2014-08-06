@@ -14,15 +14,12 @@ import java.util.Map;
 import org.appcelerator.kroll.KrollDict;
 import org.appcelerator.kroll.KrollModule;
 import org.appcelerator.kroll.annotations.Kroll;
-import org.appcelerator.titanium.TiApplication;
 import org.appcelerator.kroll.common.Log;
 import org.appcelerator.kroll.common.TiConfig;
+import org.appcelerator.titanium.TiApplication;
 
 import android.accounts.Account;
-import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
-import android.accounts.AccountManagerCallback;
-import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorDescription;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -33,6 +30,9 @@ import android.content.res.Resources;
 public class Accman2Module extends KrollModule
 {
 
+	private static final String ACCOUNT_NAME = "name";
+	private static final String ACCOUNT_TYPE = "type";
+	private static final String ACCOUNT_TYPE_LABEL = "accountType";
 	// Standard Debugging variables
 	private static final String LCAT = "Accman2Module";
 	private static final boolean DBG = TiConfig.LOGD;
@@ -73,9 +73,9 @@ public class Accman2Module extends KrollModule
 		int idx = 0;
 		for(Account account : accounts){
 			KrollDict accountDict = new KrollDict();
-			accountDict.put("name", account.name);
-			accountDict.put("type", account.type);
-			accountDict.put("accountType", labelForAuthenticator(_authenticatorLookup.get(account.type)));
+			accountDict.put(ACCOUNT_NAME, account.name);
+			accountDict.put(ACCOUNT_TYPE, account.type);
+			accountDict.put(ACCOUNT_TYPE_LABEL, labelForAuthenticator(_authenticatorLookup.get(account.type)));
 			accountList[idx] = accountDict;
 			idx++;
 		}
