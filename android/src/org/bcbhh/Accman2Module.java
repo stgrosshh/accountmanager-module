@@ -8,6 +8,7 @@
  */
 package org.bcbhh;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +22,8 @@ import org.appcelerator.titanium.TiApplication;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AuthenticatorDescription;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
@@ -33,6 +36,8 @@ public class Accman2Module extends KrollModule
 	private static final String ACCOUNT_NAME = "name";
 	private static final String ACCOUNT_TYPE = "type";
 	private static final String ACCOUNT_TYPE_LABEL = "accountType";
+	
+	private static final String AUTH_TOKEN_TYPE_LINKED_IN = "com.linkedin.android";
 	// Standard Debugging variables
 	private static final String LCAT = "Accman2Module";
 	private static final boolean DBG = TiConfig.LOGD;
@@ -80,6 +85,26 @@ public class Accman2Module extends KrollModule
 			idx++;
 		}
 		return accountList;
+	}
+
+	@Kroll.method
+	public String getAuthToken(String accountName,String accountType, HashMap params){
+		Account[] accounts = _accMan.getAccountsByType(accountType);
+		for(Account account : accounts){
+			if(accountName.equals(account.name)){
+				String token = null;
+				try {
+					token= _accMan.blockingGetAuthToken(account, null, true);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					
+				}
+				Log.e(LCAT, "Token returned" + token);
+				return token;
+			}
+		}
+		return null;
 	}
 
 	private String labelForAuthenticator(AuthenticatorDescription authenticatorDescription) {

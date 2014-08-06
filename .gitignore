@@ -1,4 +1,3 @@
 android/build/generated/**
 android/build/classes/**
-android/dist/**
 android/libs/**
