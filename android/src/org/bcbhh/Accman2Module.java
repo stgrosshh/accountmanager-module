@@ -94,7 +94,9 @@ public class Accman2Module extends KrollModule
 			if(accountName.equals(account.name)){
 				String token = null;
 				try {
+					Log.e(LCAT, "Trying to get token for " + accountName);
 					token= _accMan.blockingGetAuthToken(account, "", true);
+					Log.e(LCAT, "After blocking call");
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

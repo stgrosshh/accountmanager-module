@@ -9,6 +9,7 @@
 	<android xmlns:android="http://schemas.android.com/apk/res/android">
 		<manifest>
           <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+          <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
 		</manifest>
 	</android>
 	<mobileweb>
